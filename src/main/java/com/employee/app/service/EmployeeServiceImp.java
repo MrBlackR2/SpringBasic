@@ -5,56 +5,66 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.employee.app.dao.EmployeeDao;
-import com.employee.app.model.EmployeeModelEntity;
+import com.employee.app.model.EmployeeModel;
 
 
 @Service
 public class EmployeeServiceImp {
 
 	@Autowired
-	public EmployeeDao RepoDao;
+	private EmployeeDao empRepoIns;
 	
-	public void addEmp(EmployeeModelEntity emp) {
-			//RepoDao.findByLastname(String lastname);
-			RepoDao.save(emp);
+	public void addEmp(EmployeeModel emp) {
+			//empRepoIns.findByLastname(String lastname);
+			empRepoIns.save(emp);
 	}
 
-	public EmployeeModelEntity getEmp(int empId) {
-		Optional<EmployeeModelEntity> getimp = RepoDao.findById(empId);
+	public EmployeeModel getEmp(int empId) {
+		Optional<EmployeeModel> getimp = empRepoIns.findById(empId);
 		return getimp.get();
 	}
 	
-	public List<EmployeeModelEntity> getAllEmp(){
-		//List listEmp = new ArrayList<employee>(); 
-		List listEmp = (List<EmployeeModelEntity>) RepoDao.findAll();
+	public List<EmployeeModel> getAllEmp(){
+		List listEmp = (List<EmployeeModel>) empRepoIns.findAll();
 		return listEmp; 
 	}
 	
-	public void UpdateEmp(int empId){
-		EmployeeModelEntity empRetrive = getEmp(empId);
-		empRetrive.setEmpDept("update");
-		RepoDao.save(empRetrive);
+	public EmployeeModel UpdateEmp(EmployeeModel emp){
+		EmployeeModel empRetrive = getEmp(emp.getEmpId());
+		empRetrive.setEmpDept(emp.getEmpDept());
+		empRetrive.setEmpSalary(emp.getEmpSalary() + 9999);
+		//empRepoIns.save(empRetrive);
+		
+		return empRepoIns.save(empRetrive);
 	}
 	
 	public void DelEmp(int empId){
-		//employee empRetrive = getEmp(empId);
-		RepoDao.deleteById(empId);	
+		empRepoIns.deleteById(empId);	
 	}
 	
 	public long countEmp(){
-		long totalEmployee = RepoDao.count();
+		long totalEmployee = empRepoIns.count();
 		return totalEmployee;
 	}
 
 	
-	public List<EmployeeModelEntity> FindByfirstOrlastName(String str){
-		List<EmployeeModelEntity> listemp = RepoDao.findByempName(str);
-		System.out.println(listemp);
-		//RepoDao.
-		return listemp;
+	public List<EmployeeModel> findByname(String str){
+		List<EmployeeModel> listEmp = empRepoIns.findByempName(str);
+		return listEmp;
 	}
 
+	public List<EmployeeModel> findlistempGreaterThan(long salary){
+		List<EmployeeModel> listEmp = empRepoIns.findByempSalaryGreaterThan(salary);
+		return listEmp;
+	}
+	
+	public Page<EmployeeModel> findempbyPage(String empName, Pageable pageable){
+		Page<EmployeeModel> listEmp = empRepoIns.findByempName(empName, pageable);
+		return listEmp;
+	}
 }
