@@ -37,9 +37,7 @@ public class EmployeeServiceImp {
 	public EmployeeModel UpdateEmp(EmployeeModel emp){
 		EmployeeModel empRetrive = getEmp(emp.getEmpId());
 		empRetrive.setEmpDept(emp.getEmpDept());
-		empRetrive.setEmpSalary(emp.getEmpSalary() + 9999);
-		//empRepoIns.save(empRetrive);
-		
+		//empRetrive.setEmpSalary(emp.getEmpSalary() + 9999);		
 		return empRepoIns.save(empRetrive);
 	}
 	
