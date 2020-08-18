@@ -90,10 +90,11 @@ public class EmployeeController {
 		return employeeServiceImp.findlistempGreaterThan(empSalary);
 	}*/
 	
-	/*@GetMapping("/employee")
-	public Page<EmployeeModel> getEmpbyPage(@RequestParam(required = true) String empname, 
-		@RequestParam(defaultValue = "0") int page, Pageable pageable){
-		Pageable paging = PageRequest.of(page, pageSize);
-		return employeeServiceImp.findempbyPage(empname, paging);
-	}*/
+	@GetMapping("/employee/paging")
+	public ResponseEntity<List<EmployeeModel>> getEmpoyeebyPage(@RequestParam(defaultValue = "0") int page, Pageable pageable){
+		Pageable pageInstance = PageRequest.of(page, pageSize);
+		Page<EmployeeModel> pageEmployee = employeeServiceImp.pagingEmpoyee(pageInstance);
+		return ResponseEntity.ok().body(pageEmployee.getContent());
+	}
+	
 }

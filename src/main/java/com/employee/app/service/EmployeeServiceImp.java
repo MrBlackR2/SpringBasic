@@ -42,7 +42,7 @@ public class EmployeeServiceImp {
 	}
 	
 	public EmployeeModel updateEmployee(EmployeeModel employee, int employeeId){
-		EmployeeModel employeeModel = retriveEmployee(employee.getEmployeeId());
+		EmployeeModel employeeModel = retriveEmployee(employeeId);
 		if(employeeModel != null){
 			EmployeeModel employeeUpdate = updateEmployee.update(employee, employeeModel);
 			return employeeDao.save(employeeUpdate);
@@ -60,6 +60,11 @@ public class EmployeeServiceImp {
 		return totalEmployee;
 	}
 
+	public Page<EmployeeModel> pagingEmpoyee (Pageable pageable){
+		Page<EmployeeModel> pageEmployee = employeeDao.findAll(pageable);
+				//findByempName(empName, pageable);		
+		return pageEmployee;
+	}
 	
 	/*public List<EmployeeModel> findByname(String str){
 		List<EmployeeModel> listEmp = employeeDao.findByempName(str);
@@ -70,9 +75,6 @@ public class EmployeeServiceImp {
 		List<EmployeeModel> listEmp = employeeDao.findByempSalaryGreaterThan(salary);
 		return listEmp;
 	}*/
-	/*
-	public Page<EmployeeModel> findempbyPage(String empName, Pageable pageable){
-		Page<EmployeeModel> listEmp = employeeDao.findByempName(empName, pageable);
-		return listEmp;
-	}*/
+	
+
 }

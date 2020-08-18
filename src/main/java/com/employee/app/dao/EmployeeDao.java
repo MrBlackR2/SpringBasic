@@ -19,7 +19,7 @@ public interface EmployeeDao extends JpaRepository<EmployeeModel, Integer>{
 	
 	//List<EmployeeModel> findByempSalaryGreaterThan(long salary);
 	
-	//Page<EmployeeModel> findByempName(String firstName, Pageable pageable);
+	Page<EmployeeModel> findAll(Pageable pageable);
 	
 	//Pageable firstPageWithTwoElements = PageRequest.of(0, 2);
 	
