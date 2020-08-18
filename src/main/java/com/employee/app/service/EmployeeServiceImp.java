@@ -12,57 +12,67 @@ import org.springframework.stereotype.Service;
 import com.employee.app.dao.EmployeeDao;
 import com.employee.app.model.EmployeeModel;
 
-
 @Service
 public class EmployeeServiceImp {
-
 	@Autowired
-	private EmployeeDao empRepoIns;
+	private EmployeeDao employeeDao;
 	
-	public void addEmp(EmployeeModel emp) {
-			//empRepoIns.findByLastname(String lastname);
-			empRepoIns.save(emp);
+	@Autowired
+	UpdateEmployeeDetails updateEmployee;
+	
+	public EmployeeModel addEmployee(EmployeeModel employee) {
+		EmployeeModel newEmployee = employeeDao.save(employee);
+			return newEmployee;
 	}
 
-	public EmployeeModel getEmp(int empId) {
-		Optional<EmployeeModel> getimp = empRepoIns.findById(empId);
-		return getimp.get();
+	public EmployeeModel retriveEmployee(int employeeId) {
+		Optional<EmployeeModel> employee = employeeDao.findById(employeeId);
+		
+		if(employee.isPresent()){
+			return employee.get();	
+		}
+		else{
+			return null;
+		}
 	}
 	
-	public List<EmployeeModel> getAllEmp(){
-		List listEmp = (List<EmployeeModel>) empRepoIns.findAll();
-		return listEmp; 
+	public List<EmployeeModel> retriveEmployees(){
+		List employees = (List<EmployeeModel>) employeeDao.findAll();
+		return employees; 
 	}
 	
-	public EmployeeModel UpdateEmp(EmployeeModel emp){
-		EmployeeModel empRetrive = getEmp(emp.getEmpId());
-		empRetrive.setEmpDept(emp.getEmpDept());
-		//empRetrive.setEmpSalary(emp.getEmpSalary() + 9999);		
-		return empRepoIns.save(empRetrive);
+	public EmployeeModel updateEmployee(EmployeeModel employee, int employeeId){
+		EmployeeModel employeeModel = retriveEmployee(employee.getEmployeeId());
+		if(employeeModel != null){
+			EmployeeModel employeeUpdate = updateEmployee.update(employee, employeeModel);
+			return employeeDao.save(employeeUpdate);
+		}else{
+			return null;
+		}
 	}
 	
-	public void DelEmp(int empId){
-		empRepoIns.deleteById(empId);	
+	public void deleteEmployee(int employeeId){
+		employeeDao.deleteById(employeeId);	
 	}
 	
 	public long countEmp(){
-		long totalEmployee = empRepoIns.count();
+		long totalEmployee = employeeDao.count();
 		return totalEmployee;
 	}
 
 	
-	public List<EmployeeModel> findByname(String str){
-		List<EmployeeModel> listEmp = empRepoIns.findByempName(str);
+	/*public List<EmployeeModel> findByname(String str){
+		List<EmployeeModel> listEmp = employeeDao.findByempName(str);
 		return listEmp;
-	}
+	}*/
 
-	public List<EmployeeModel> findlistempGreaterThan(long salary){
-		List<EmployeeModel> listEmp = empRepoIns.findByempSalaryGreaterThan(salary);
+	/*public List<EmployeeModel> findlistempGreaterThan(long salary){
+		List<EmployeeModel> listEmp = employeeDao.findByempSalaryGreaterThan(salary);
 		return listEmp;
-	}
-	
+	}*/
+	/*
 	public Page<EmployeeModel> findempbyPage(String empName, Pageable pageable){
-		Page<EmployeeModel> listEmp = empRepoIns.findByempName(empName, pageable);
+		Page<EmployeeModel> listEmp = employeeDao.findByempName(empName, pageable);
 		return listEmp;
-	}
+	}*/
 }

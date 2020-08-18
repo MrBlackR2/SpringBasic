@@ -13,15 +13,13 @@ import org.springframework.stereotype.Repository;
 import com.employee.app.model.EmployeeModel;
 
 @Repository
-//public interface empDAO extends CrudRepository<employee, Integer> {
-public interface EmployeeDao extends JpaRepository<EmployeeModel, Integer>{//, PagingAndSortingRepository<EmployeeModel, Integer> {
+public interface EmployeeDao extends JpaRepository<EmployeeModel, Integer>{
 	
-
-	List<EmployeeModel> findByempName(String searchName);
+	List<EmployeeModel> findByfirstName(String searchName);
 	
-	List<EmployeeModel> findByempSalaryGreaterThan(long salary);
+	//List<EmployeeModel> findByempSalaryGreaterThan(long salary);
 	
-	Page<EmployeeModel> findByempName(String firstName, Pageable pageable);
+	//Page<EmployeeModel> findByempName(String firstName, Pageable pageable);
 	
 	//Pageable firstPageWithTwoElements = PageRequest.of(0, 2);
 	
