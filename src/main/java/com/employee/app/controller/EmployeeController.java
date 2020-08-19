@@ -3,9 +3,11 @@ package com.employee.app.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -91,10 +93,38 @@ public class EmployeeController {
 	}*/
 	
 	@GetMapping("/employee/paging")
-	public ResponseEntity<List<EmployeeModel>> getEmpoyeebyPage(@RequestParam(defaultValue = "0") int page, Pageable pageable){
+	public ResponseEntity<List<EmployeeModel>> getEmpoyeebyPage(@RequestParam(defaultValue = "0") int page){
 		Pageable pageInstance = PageRequest.of(page, pageSize);
 		Page<EmployeeModel> pageEmployee = employeeServiceImp.pagingEmpoyee(pageInstance);
 		return ResponseEntity.ok().body(pageEmployee.getContent());
 	}
 	
+	@GetMapping("/employee/pagingbysex")
+	public ResponseEntity<List<EmployeeModel>> getEmpoyeebyPage(
+		@RequestParam(required = true) String sex,
+		@RequestParam(defaultValue = "0") int page){
+		Pageable pageInstance = PageRequest.of(page, pageSize);
+		Page<EmployeeModel> pageEmployee = employeeServiceImp.pagingEmpoyeeWithsortbySex(sex, pageInstance);
+		if(pageEmployee != null){
+			return ResponseEntity.ok().body(pageEmployee.getContent());	
+		}
+		else{
+			return ResponseEntity.notFound().build();
+		}
+	}
+	
+	@GetMapping("/employee/pagingbysexwithsort")
+	public ResponseEntity<List<EmployeeModel>> getEmpoyeebyPagewithSort(
+		@RequestParam(required = true) String sex,
+		@RequestParam(required = true) String firstName,
+		@RequestParam(defaultValue = "0") int page){
+		Pageable pageInstance = PageRequest.of(page, pageSize, Sort.by("firstName").ascending());
+		Page<EmployeeModel> pageEmployee = employeeServiceImp.pagingEmpoyeeWithsortbySex(sex, pageInstance);
+		if(pageEmployee != null){
+			return ResponseEntity.ok().body(pageEmployee.getContent());	
+		}
+		else{
+			return ResponseEntity.notFound().build();
+		}
+	}
 }

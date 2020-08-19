@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.employee.app.dao.EmployeeDao;
@@ -62,8 +63,25 @@ public class EmployeeServiceImp {
 
 	public Page<EmployeeModel> pagingEmpoyee (Pageable pageable){
 		Page<EmployeeModel> pageEmployee = employeeDao.findAll(pageable);
-				//findByempName(empName, pageable);		
 		return pageEmployee;
+	}
+	
+	public Page<EmployeeModel> pagingEmpoyeebySex (String sex, Pageable pageable){
+		Page<EmployeeModel> pageEmployee = employeeDao.findBysex(sex, pageable);
+		if(pageEmployee != null){
+			return pageEmployee;
+		}else{
+			return null;
+		}
+	}
+	
+	public Page<EmployeeModel> pagingEmpoyeeWithsortbySex(String sex, Pageable pageable){
+		Page<EmployeeModel> pageEmployee = employeeDao.findBysex(sex, pageable);
+		if(pageEmployee != null){
+			return pageEmployee;
+		}else{
+			return null;
+		}
 	}
 	
 	/*public List<EmployeeModel> findByname(String str){
