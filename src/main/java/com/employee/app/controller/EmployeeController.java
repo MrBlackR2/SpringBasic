@@ -41,6 +41,8 @@ public class EmployeeController {
 	public ResponseEntity<EmployeeModel> getEmployee(@PathVariable("employeeId") int employeeId){
 		EmployeeModel employee = employeeServiceImp.retriveEmployee(employeeId);
 		if(employee != null){
+			System.out.println("Employee-------------" + employee.toString());
+			
 			return ResponseEntity.ok().body(employee);
 		}else{
 			return ResponseEntity.notFound().build();

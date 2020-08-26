@@ -7,3 +7,11 @@ email VARCHAR(50) NOT NULL,
 employeeDept VARCHAR(50) NOT NULL,
 sex VARCHAR(50) NOT NULL
 ); 
+
+DROP TABLE IF EXISTS address;  
+CREATE TABLE address (  
+employeeId INT AUTO_INCREMENT PRIMARY KEY,  
+street VARCHAR(50) NOT NULL,
+locality VARCHAR(50) NOT NULL,
+house_no VARCHAR(50) NOT NULL
+); 
